@@ -1,0 +1,11 @@
+create service for orders and other for products
+
+dapr? rabbitmq on prem/serice bus cloud
+
+run services in containers
+
+configure opentelemetry for zipkin
+
+deploy to aks helm
+
+terraform to create aks and database
