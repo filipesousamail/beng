@@ -11,3 +11,5 @@ deploy to aks helm
 terraform to create aks and database
 
 order repository on the UsersService
+
+gateway as a simple gateway
