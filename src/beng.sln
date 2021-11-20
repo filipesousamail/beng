@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserService", "UserService\UserService.csproj", "{1ADBEAD4-FA99-4795-850A-C596038593E6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{614AD5FA-DDF1-4384-B173-2B6DCE13A43E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{614AD5FA-DDF1-4384-B173-2B6DCE13A43E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{614AD5FA-DDF1-4384-B173-2B6DCE13A43E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{614AD5FA-DDF1-4384-B173-2B6DCE13A43E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ADBEAD4-FA99-4795-850A-C596038593E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ADBEAD4-FA99-4795-850A-C596038593E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ADBEAD4-FA99-4795-850A-C596038593E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ADBEAD4-FA99-4795-850A-C596038593E6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

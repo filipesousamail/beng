@@ -1,0 +1,12 @@
+name: beng
+
+extensions:
+- name: dapr
+  log-level: debug
+  config: appconfig
+  components-path: "./components/local/"
+
+
+services:
+- name: user-service
+  project: src/UserService/UserService.csproj
