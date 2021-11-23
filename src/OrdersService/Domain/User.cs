@@ -1,7 +1,11 @@
 namespace beng.OrdersService.Domain;
 
-public class User
+public class User : Entity<Guid>
 {
-    public Guid Id { get; set; }
+    public User()
+    {
+        Id = Guid.NewGuid();
+    }
+    
     public string Name { get; set; }
 }

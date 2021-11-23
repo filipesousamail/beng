@@ -1,9 +1,11 @@
-using System;
+namespace beng.UsersService.Domain;
 
-namespace beng.user.service.Domain;
-
-public class User
+public class User : Entity<Guid>
 {
-    public Guid Id { get; set; }
-    public string? Name { get; set; }
+    public User()
+    {
+        Id = Guid.NewGuid();
+    }
+    
+    public string Name { get; set; }
 }

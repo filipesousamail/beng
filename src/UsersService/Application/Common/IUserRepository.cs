@@ -1,8 +1,9 @@
-using beng.user.service.Domain;
+using beng.UsersService.Domain;
 
-namespace beng.user.service.Application.Common;
+namespace beng.UsersService.Application.Common;
 
 public interface IUserRepository
 {
-    Task<User> GetByIdAsync(Guid id);
+    Task<User?> GetByIdAsync(Guid id);
+    Task<Guid> CreateAsync(User user);
 }

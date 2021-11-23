@@ -1,8 +1,8 @@
-using beng.OrdersService.Application.Features.GetOrders;
+using beng.OrdersService.Application.Features.Orders.GetOrders;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace beng.OrdersService.Application.Features;
+namespace beng.OrdersService.Api.Http;
 
 [ApiController]
 [Route("api/v1/[controller]")]
@@ -15,6 +15,6 @@ public class OrdersController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet("")]
-    public IActionResult GetOrders(GetOrdersQuery request) => Ok(_mediator.Send(request));
+    [HttpGet]
+    public async Task<IActionResult> GetOrders([FromQuery] GetOrdersQuery request) => Ok(await _mediator.Send(request));
 }

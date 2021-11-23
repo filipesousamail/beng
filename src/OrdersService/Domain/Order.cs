@@ -1,17 +1,18 @@
 namespace beng.OrdersService.Domain;
 
-public class Order
+public class Order : Entity<Guid>
 {
     public Order()
     {
-        ProductIds = new List<Guid>();
+        Id = Guid.NewGuid();
+        Products = new List<Product>();
     }
 
-    public Guid Id { get; set; }
     public decimal Total { get; set; }
-    
+    public int Quantity { get; set; }
+
     public Guid UserId { get; set; }
     public User User { get; set; }
 
-    public List<Guid> ProductIds { get; set; }
+    public List<Product> Products { get; set; }
 }

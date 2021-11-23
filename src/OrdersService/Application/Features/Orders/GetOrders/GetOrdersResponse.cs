@@ -1,4 +1,4 @@
-namespace beng.OrdersService.Application.Features.GetOrders;
+namespace beng.OrdersService.Application.Features.Orders.GetOrders;
 
 public class GetOrdersResponse
 {

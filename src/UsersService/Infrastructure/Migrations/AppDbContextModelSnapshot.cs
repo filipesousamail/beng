@@ -4,14 +4,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using beng.user.service.Infrastructure;
+using beng.UsersService.Infrastructure;
 
 #nullable disable
 
-namespace beng.user.service.Infrastructure.Migrations
+namespace beng.UsersService.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    partial class AppDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -22,18 +22,19 @@ namespace beng.user.service.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("beng.user.service.Domain.User", b =>
+            modelBuilder.Entity("beng.UsersService.Domain.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("User", (string)null);
                 });
 #pragma warning restore 612, 618
         }

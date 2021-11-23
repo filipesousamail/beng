@@ -9,4 +9,7 @@ extensions:
 
 services:
 - name: user-service
-  project: src/UserService/UserService.csproj
+  project: src/UsersService/UsersService.csproj
+
+- name: user-service
+  project: src/OrdersService/OrdersService.csproj

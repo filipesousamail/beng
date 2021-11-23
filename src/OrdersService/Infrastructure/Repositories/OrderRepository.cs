@@ -1,6 +1,7 @@
 using beng.OrdersService.Application.Common;
 using beng.OrdersService.Domain;
 using System.Linq.Dynamic.Core;
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 
 namespace beng.OrdersService.Infrastructure.Repositories;
@@ -9,24 +10,21 @@ public class OrderRepository : IOrderRepository
 {
     private readonly AppDbContext _db;
 
-    public OrderRepository(AppDbContext db)
+    public OrderRepository(AppDbContext db) => _db = db;
+
+    public IPagedList<Order> GetOrdersAsync(string userName, decimal? orderTotalFrom, string orderBy,
+        string orderDirection, int pageIndex = 0, int pageSize = 10)
     {
-        _db = db;
-    }
+        var treatedOrderBy = string.IsNullOrWhiteSpace(orderBy) ? "Id" : orderBy;
+        var treatedOrderDirection = string.IsNullOrWhiteSpace(orderDirection) ? "asc" : orderDirection;
+        var orderQuery = _db.Orders.Include(e => e.User).AsQueryable();
 
-    public async Task<IEnumerable<Order>> GetOrdersAsync(string userName, string orderBy, string orderDirection,
-        int pageIndex, int pageSize = 10)
-    {
-        var orderQuery = _db.Orders
-            .OrderBy($"{orderBy ?? "Id"} {orderDirection ?? "asc"}")
-            .Take(pageIndex..pageSize);
+        if (orderTotalFrom.HasValue)
+            orderQuery = orderQuery.Where(e => e.Total >= orderTotalFrom);
 
-        if (string.IsNullOrWhiteSpace(userName)) return await orderQuery.ToListAsync();
+        if (!string.IsNullOrWhiteSpace(userName))
+            orderQuery = orderQuery.Where(e => e.User.Name.Contains(userName));
 
-        var userIds = _httpClient.get(userName);
-
-        orderQuery = orderQuery.Where(e => userIds.Contains(e.UserId));
-
-        return await orderQuery.ToListAsync();
+        return orderQuery.OrderBy(e => $"{treatedOrderBy} {treatedOrderDirection}").TakePage(pageIndex, pageSize);
     }
 }

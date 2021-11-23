@@ -1,4 +1,6 @@
+using System.Reflection;
 using beng.OrdersService.Domain;
+using beng.OrdersService.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 
 namespace beng.OrdersService.Infrastructure;
@@ -9,5 +11,12 @@ public class AppDbContext : DbContext
     {
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetAssembly(typeof(OrderConfiguration)));
+        base.OnModelCreating(modelBuilder);
+    }
+
     public DbSet<Order> Orders { get; set; }
+    public DbSet<User> Users { get; set; }
 }

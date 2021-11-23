@@ -1,5 +1,6 @@
 using System.Reflection;
 using beng.OrdersService.Application.Common;
+using beng.OrdersService.Application.Features.Orders.GetOrders;
 using beng.OrdersService.Infrastructure;
 using beng.OrdersService.Infrastructure.Repositories;
 using MediatR;
@@ -27,9 +28,11 @@ db.Database.Migrate();
 
 // repos 
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
 
 // application
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddTransient<IGetOrdersQueryMapper, GetOrdersQueryMapper>();
 
 var app = builder.Build();
 

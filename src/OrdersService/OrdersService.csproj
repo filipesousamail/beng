@@ -10,6 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Dapr.AspNetCore" Version="1.5.0" />
+    <PackageReference Include="FluentValidation" Version="10.3.4" />
     <PackageReference Include="MediatR" Version="9.0.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
@@ -21,5 +23,14 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
         <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.14" />
     </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Api" />
+    <Folder Include="Application\Features\Orders" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Contracts\Contracts.csproj" />
+  </ItemGroup>
 
 </Project>
