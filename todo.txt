@@ -13,3 +13,6 @@ terraform to create aks and database
 order repository on the UsersService
 
 gateway as a simple gateway
+
+dapr run --app-id orders-service --app-port 5005 -- dotnet run  --urls "http://localhost:5005"
+

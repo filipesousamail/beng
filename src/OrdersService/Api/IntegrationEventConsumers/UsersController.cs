@@ -16,11 +16,12 @@ public class UsersController : ControllerBase
         _mediator = mediator;
     }
 
-    [Topic("pubsub", nameof(UserCreated))]
-    [HttpPost]
-    public async Task<IActionResult> Create(UserCreated userCreated)
+    [Topic("pubsub", "UserCreated")]
+    [HttpPost("UserCreated")]
+    public async Task<IActionResult> Create(UserCreated cenas)
     {
-        await _mediator.Send(new CreateUserCommand(userCreated.Name));
+        // var userCreated = cenas as UserCreated;
+        await _mediator.Send(new CreateUserCommand(cenas.Name));
 
         return Accepted();
     }
