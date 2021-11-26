@@ -1,15 +1,34 @@
 name: beng
 
 extensions:
-- name: dapr
-  log-level: debug
-  config: appconfig
-  components-path: "./components/local/"
-
+  - name: dapr
+    log-level: debug
+    config: appconfig
+    components-path: "./components/local/"
 
 services:
-- name: user-service
-  project: src/UsersService/UsersService.csproj
+  - name: userservice
+    project: src/UsersService/UsersService.csproj
+    bindings:
+    - port: 5080
 
-- name: user-service
-  project: src/OrdersService/OrdersService.csproj
+
+  - name: orders
+    project: src/OrdersService/OrdersService.csproj
+    bindings:
+    - port: 5081
+
+# services:
+# - name: users-service
+#   executable: dapr
+#   args: run --app-id users-service --app-port 5080 --components-path components/local -- dotnet run --project src/UsersService/UsersService.csproj --urls "http://localhost:5080"
+  
+# - name: orders-service
+#   executable: dapr
+#   args: run --app-id orders-service --app-port 5081 --components-path components/local -- dotnet run --project src/OrdersService/OrdersService.csproj --urls "http://localhost:5081"
+
+
+
+# dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --dapr-grpc-port 60002 --app-ssl dotnet run
+
+# dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 --app-ssl dotnet run

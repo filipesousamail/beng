@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace beng.UsersService.Application.Http;
 
 [ApiController]
-[Route("api/v1/[controller]")]
+[Route("[controller]")]
 public class UsersController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -16,11 +16,16 @@ public class UsersController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet("id")]
+    [HttpGet("{id}")]
     public async Task<IActionResult> GetUserDetails(Guid id)
     {
         var response = await _mediator.Send(new GetUserQuery(id));
         return response is not null ? Ok(response) : NotFound();
+    }
+
+    [HttpGet("get-by-name/{name}")]
+    public async Task<IActionResult> GetByName(string name){
+        return Ok(new {name = "filipe"});
     }
 
     [HttpPost]

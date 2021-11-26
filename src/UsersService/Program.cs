@@ -45,7 +45,7 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints => { endpoints.MapSubscribeHandler(); });
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.MapControllers();
 
