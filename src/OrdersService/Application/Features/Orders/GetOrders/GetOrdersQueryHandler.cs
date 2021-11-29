@@ -1,24 +1,44 @@
 using beng.OrdersService.Application.Common;
+using beng.OrdersService.Domain;
+using beng.OrdersService.Infrastructure;
 using MediatR;
+using System.Linq.Dynamic.Core;
 
-namespace beng.OrdersService.Application.Features.Orders.GetOrders;
-
-public class GetOrdersQueryHandler : IRequestHandler<GetOrdersQuery, IPagedList<GetOrdersResponse>>
+namespace beng.OrdersService.Application.Features.Orders.GetOrders
 {
-    private readonly IOrderRepository _repo;
-    private readonly IGetOrdersQueryMapper _mapper;
-
-    public GetOrdersQueryHandler(IOrderRepository repo, IGetOrdersQueryMapper mapper)
+    public class GetOrdersQueryHandler :
+        IRequestHandler<GetOrdersQuery, IPagedList<GetOrdersQueryResponse>>
     {
-        _repo = repo;
-        _mapper = mapper;
-    }
+        private readonly AppDbContext _db;
+        private readonly IOrderRepository _repo;
+        private readonly IUserServiceGateway _userServiceGateway;
+        private readonly HashSet<string> _validOrderSubjects = new() {"Id", "Total"};
 
-    public Task<IPagedList<GetOrdersResponse>> Handle(GetOrdersQuery request, CancellationToken cancellationToken)
-    {
-        var orders = _repo.GetOrdersAsync(request.UserName, request.OrderTotalFrom, request.OrderBy,
-            request.OrderDirection, request.PageIndex, request.PageSize);
+        public GetOrdersQueryHandler(
+            AppDbContext db,
+            IOrderRepository repo,
+            IUserServiceGateway userServiceGateway)
+        {
+            _db = db;
+            _repo = repo;
+            _userServiceGateway = userServiceGateway;
+        }
 
-        return Task.FromResult(_mapper.PagedOrderResponseOf(orders));
+        public async Task<IPagedList<GetOrdersQueryResponse>> Handle(GetOrdersQuery request,
+            CancellationToken cancellationToken)
+        {
+            var users = await _userServiceGateway.GetUsersAsync(request.UserName, request.OrderBy, 
+                request.OrderDirection, request.PageIndex, request.PageSize, cancellationToken);
+            var userList = users.ToList();
+
+            var curatedOrderBy = _validOrderSubjects.Contains(request.OrderBy) ? request.OrderBy : nameof(Order.Id);
+            var orders = _db.Orders
+                .ApplyGetOrdersQueryFilters(request, userList.Select(e => e.Id).ToList())
+                .Select(GetOrdersQueryResponse.Projection(userList))
+                .OrderBy($"{curatedOrderBy} {request.OrderDirection ?? "asc"}")
+                .TakePage(request.PageIndex, request.PageSize);
+            
+            return orders;
+        }
     }
 }

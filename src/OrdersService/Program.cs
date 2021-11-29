@@ -2,7 +2,9 @@ using System.Reflection;
 using beng.OrdersService.Application.Common;
 using beng.OrdersService.Application.Features.Orders.GetOrders;
 using beng.OrdersService.Infrastructure;
+using beng.OrdersService.Infrastructure.Gateways;
 using beng.OrdersService.Infrastructure.Repositories;
+using Dapr.Client;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,9 +32,12 @@ db.Database.Migrate();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 
+// gateways
+builder.Services.AddSingleton<IUserServiceGateway, UserServiceGateway>(
+    _ => new UserServiceGateway(DaprClient.CreateInvokeHttpClient("userservice")));
+
 // application
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
-builder.Services.AddTransient<IGetOrdersQueryMapper, GetOrdersQueryMapper>();
 
 var app = builder.Build();
 

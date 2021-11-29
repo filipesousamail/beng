@@ -6,8 +6,6 @@ using MediatR;
 
 namespace beng.UsersService.Application.Features.CreateUser;
 
-public record CreateUserCommand(string Name) : IRequest<Guid>;
-
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Guid>
 {
     private readonly IUserRepository _repo;

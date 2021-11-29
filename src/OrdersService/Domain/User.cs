@@ -7,5 +7,5 @@ public class User : Entity<Guid>
         Id = Guid.NewGuid();
     }
     
-    public string Name { get; set; }
+    public string? Name { get; set; }
 }

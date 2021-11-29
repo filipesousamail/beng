@@ -1,5 +1,4 @@
 using beng.OrdersService.Application.Features.Orders.GetOrders;
-using beng.OrdersService.Application.Features.Orders.GetOrdersWithUserDependency;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +20,6 @@ public class OrdersController : ControllerBase
         Ok(await _mediator.Send(request));
 
     [HttpGet("orders-user-dependency")]
-    public async Task<IActionResult> GetOrdersWithUserDependency([FromQuery] GetOrdersQueryWithUserDependencyQuery request) =>
+    public async Task<IActionResult> GetOrdersWithUserDependency([FromQuery] GetOrdersQuery request) =>
         Ok(await _mediator.Send(request));
 }
