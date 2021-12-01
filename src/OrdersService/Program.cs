@@ -42,8 +42,8 @@ builder.Services.AddSingleton<IUserServiceGateway, UserServiceGateway>(
     _ => new UserServiceGateway(DaprClient.CreateInvokeHttpClient("userservice")));
 
 // application
-builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
-builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehaviour<,>));
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly())
+    .AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehaviour<,>));
             
 
 var app = builder.Build();

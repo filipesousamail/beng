@@ -17,10 +17,11 @@ public class UsersController : ControllerBase
     }
 
     [Topic("pubsub", nameof(UserCreated))]
-    [HttpPost("UserCreated")]
-    public async Task<IActionResult> Create(UserCreated user)
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] UserCreated user)
     {
         var cenas = user as UserCreated;
+        cenas.Name = null; // validation behaviour not raising errors?...
         var userId = await _mediator.Send(new CreateUserCommand(cenas));
 
         return Accepted(userId);
