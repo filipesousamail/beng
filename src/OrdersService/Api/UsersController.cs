@@ -4,9 +4,9 @@ using Dapr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace beng.OrdersService.Api.IntegrationEventConsumers;
+namespace beng.OrdersService.Api;
 
-[Route("api/v1/[controller]")]
+[Route("api/v1/users")]
 public class UsersController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -16,13 +16,13 @@ public class UsersController : ControllerBase
         _mediator = mediator;
     }
 
-    [Topic("pubsub", "UserCreated")]
+    [Topic("pubsub", nameof(UserCreated))]
     [HttpPost("UserCreated")]
-    public async Task<IActionResult> Create(UserCreated cenas)
+    public async Task<IActionResult> Create(UserCreated user)
     {
-        // var userCreated = cenas as UserCreated;
-        await _mediator.Send(new CreateUserCommand(cenas.Name));
+        var cenas = user as UserCreated;
+        var userId = await _mediator.Send(new CreateUserCommand(cenas));
 
-        return Accepted();
+        return Accepted(userId);
     }
 }

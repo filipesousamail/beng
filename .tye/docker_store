@@ -1,0 +1,5 @@
+{"container":"placement_02182497-7"}
+{"container":"userservice-proxy_15c74767-d"}
+{"container":"orderservice-proxy_ae5a166a-8"}
+{"container":"userservice-dapr-proxy_59f909a4-1"}
+{"container":"orderservice-dapr-proxy_c004dd63-e"}

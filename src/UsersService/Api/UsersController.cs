@@ -1,10 +1,10 @@
+using beng.UsersService.Api.Models;
 using beng.UsersService.Application.Features.CreateUser;
 using beng.UsersService.Application.Features.GetUser;
-using beng.UsersService.Application.Http.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace beng.UsersService.Application.Http;
+namespace beng.UsersService.Api;
 
 [ApiController]
 [Route("api/v1/users")]
@@ -17,7 +17,7 @@ public class UsersController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet("id:guid")]
+    [HttpGet("id")]
     public async Task<IActionResult> GetUserDetails(Guid id)
     {
         var response = await _mediator.Send(new GetUserQuery(id));
@@ -25,7 +25,7 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetUserList(GetUsersRequestModel request) =>
+    public async Task<IActionResult> GetUserList([FromQuery]GetUsersRequestModel request) =>
         Ok(await _mediator.Send(request.AsGetUserListQuery()));
 
     [HttpPost]

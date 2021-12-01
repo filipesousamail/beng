@@ -1,8 +1,8 @@
 using beng.UsersService.Application.Features.GetUsers;
 
-namespace beng.UsersService.Application.Http.Models;
+namespace beng.UsersService.Api.Models;
 
-public record GetUsersRequestModel(string UserName, string OrderBy, string OrderDirection, int PageIndex = 0,
+public record GetUsersRequestModel(string? UserName, string? OrderBy, string? OrderDirection = "asc", int PageIndex = 0,
     int PageSize = 10)
 {
     public GetUsersQuery AsGetUserListQuery() =>

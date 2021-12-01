@@ -15,10 +15,11 @@ namespace beng.OrdersService.Application.Features.Orders.GetOrders
             {
                 Total = order.Total,
                 UserId = order.UserId,
-                UserName = userList.Any(u => u.Id == order.UserId)
-                    ? userList.First(u => u.Id == order.UserId).Name
-                    : default
+                UserName = GetUserName(userList, order.UserId)
             };
+
+        private static string? GetUserName(IEnumerable<User> userList, Guid userId) => 
+            userList.FirstOrDefault(u => u.Id == userId)?.Name;
     }
 
     public static class GetOrdersQueryExtensions

@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text.Json;
 using beng.OrdersService.Application.Common;
 using beng.OrdersService.Application.Features.Orders.GetOrders;
 using beng.OrdersService.Infrastructure;
@@ -12,7 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddDapr();
+builder.Services.AddControllers().AddDapr(options =>
+{
+    options.UseJsonSerializationOptions(new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -21,7 +26,7 @@ builder.Services.AddSwaggerGen();
 //database
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("postgres")));
-    
+
 //Apply migrations
 var serviceProvider = builder.Services.BuildServiceProvider();
 using var scope = serviceProvider.CreateScope();
@@ -38,6 +43,8 @@ builder.Services.AddSingleton<IUserServiceGateway, UserServiceGateway>(
 
 // application
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehaviour<,>));
+            
 
 var app = builder.Build();
 

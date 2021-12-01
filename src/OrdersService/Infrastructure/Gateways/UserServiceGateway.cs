@@ -18,11 +18,11 @@ public class UserServiceGateway : IUserServiceGateway
         var validOrderSubjects = new HashSet<string> {"Id", "Name"};
         var curatedOrderBy = validOrderSubjects.Contains(orderBy) ? orderBy : nameof(User.Id);
 
-        var users = await _userServiceHttpClient.GetFromJsonAsync<IEnumerable<User>>(
+        var users = await _userServiceHttpClient.GetFromJsonAsync<PagedList<User>>(
             $"api/v1/users?userName={userName}&orderBy={curatedOrderBy}&orderDirection={orderDirection}&pageIndex={pageIndex}&pageSize={pageSize}",
             cancellationToken);
 
-        return users ?? Enumerable.Empty<User>();
+        return users?.Items ?? Enumerable.Empty<User>();
 
     }
 }

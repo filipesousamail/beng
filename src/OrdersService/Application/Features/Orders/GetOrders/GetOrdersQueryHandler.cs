@@ -27,17 +27,20 @@ namespace beng.OrdersService.Application.Features.Orders.GetOrders
         public async Task<IPagedList<GetOrdersQueryResponse>> Handle(GetOrdersQuery request,
             CancellationToken cancellationToken)
         {
-            var users = await _userServiceGateway.GetUsersAsync(request.UserName, request.OrderBy, 
+            var users = await _userServiceGateway.GetUsersAsync(request.UserName, request.OrderBy,
                 request.OrderDirection, request.PageIndex, request.PageSize, cancellationToken);
-            var userList = users.ToList();
 
-            var curatedOrderBy = _validOrderSubjects.Contains(request.OrderBy) ? request.OrderBy : nameof(Order.Id);
+            var curatedOrderBy = _validOrderSubjects.Contains(request.OrderBy)
+                ? request.OrderBy
+                : nameof(GetOrdersQueryResponse.Total);
+            var userList = users.ToList();
+            
             var orders = _db.Orders
                 .ApplyGetOrdersQueryFilters(request, userList.Select(e => e.Id).ToList())
                 .Select(GetOrdersQueryResponse.Projection(userList))
                 .OrderBy($"{curatedOrderBy} {request.OrderDirection ?? "asc"}")
                 .TakePage(request.PageIndex, request.PageSize);
-            
+
             return orders;
         }
     }
