@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace beng.OrdersService.Api;
 
+[ApiController]
 [Route("api/v1/users")]
 public class UsersController : ControllerBase
 {
@@ -18,7 +19,7 @@ public class UsersController : ControllerBase
 
     [Topic("pubsub", nameof(UserCreated))]
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] UserCreated user)
+    public async Task<IActionResult> Create(UserCreated user)
     {
         var cenas = user as UserCreated;
         cenas.Name = null; // validation behaviour not raising errors?...
