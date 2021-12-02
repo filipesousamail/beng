@@ -2,10 +2,12 @@ using System.Reflection;
 using System.Text.Json;
 using beng.OrdersService.Application.Common;
 using beng.OrdersService.Application.Features.Orders.GetOrders;
+using beng.OrdersService.Application.Features.Users;
 using beng.OrdersService.Infrastructure;
 using beng.OrdersService.Infrastructure.Gateways;
 using beng.OrdersService.Infrastructure.Repositories;
 using Dapr.Client;
+using FluentValidation.AspNetCore;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddDapr(options =>
-{
-    options.UseJsonSerializationOptions(new JsonSerializerOptions {PropertyNameCaseInsensitive = true});
-});
+builder.Services.AddControllers()
+    .AddDapr()
+    .AddFluentValidation(configuration =>
+        configuration.RegisterValidatorsFromAssembly(Assembly.GetAssembly(typeof(CreateUserCommandValidator))));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -42,9 +44,8 @@ builder.Services.AddSingleton<IUserServiceGateway, UserServiceGateway>(
     _ => new UserServiceGateway(DaprClient.CreateInvokeHttpClient("userservice")));
 
 // application
-builder.Services.AddMediatR(Assembly.GetExecutingAssembly())
-    .AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehaviour<,>));
-            
+builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
+builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehaviour<,>));    
 
 var app = builder.Build();
 

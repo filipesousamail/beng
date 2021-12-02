@@ -35,7 +35,7 @@ namespace beng.OrdersService.Application.Features.Orders.GetOrders
                 : nameof(GetOrdersQueryResponse.Total);
             var userList = users.ToList();
             
-            var orders = _db.Orders
+            var orders = _db.Orders // TODO: test this projection to see user name
                 .ApplyGetOrdersQueryFilters(request, userList.Select(e => e.Id).ToList())
                 .Select(GetOrdersQueryResponse.Projection(userList))
                 .OrderBy($"{curatedOrderBy} {request.OrderDirection ?? "asc"}")
