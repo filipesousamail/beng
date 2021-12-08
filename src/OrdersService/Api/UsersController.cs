@@ -4,7 +4,7 @@ using Dapr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace beng.OrdersService.Api;
+namespace beng.OrdersService.Api.IntegrationEventConsumers;
 
 [ApiController]
 [Route("integrations/v1/users")]
@@ -16,6 +16,6 @@ public class UsersController : ControllerBase
 
     [Topic("pubsub", nameof(UserCreated))]
     [HttpPost]
-    public async Task<IActionResult> Create(UserCreated user) => 
+    public async Task<IActionResult> Create(UserCreated user) =>
         base.Ok(await _mediator.Send(new CreateUserCommand(user)));
 }

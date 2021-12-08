@@ -1,9 +1,9 @@
 using beng.OrdersService.Application.Common;
 using MediatR;
 
-namespace beng.OrdersService.Application.Features.Orders.GetOrders;
+namespace beng.OrdersService.Application.Features.Orders.GetOrders.v1;
 
-public record GetOrdersQuery : IRequest<IPagedResult<GetOrdersQueryResponse>>
+public class GetOrdersQuery : IRequest<IPagedResult<GetOrdersQueryResponse>>
 {
     public string? UserName { get; set; }
     public decimal? OrderTotalFrom { get; set; }

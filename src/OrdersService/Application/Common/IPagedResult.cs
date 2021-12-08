@@ -2,7 +2,7 @@ using System.Collections;
 
 namespace beng.OrdersService.Application.Common;
 
-public interface IPagedList
+public interface IPagedResult
 {
     ICollection Items { get; }
     int Count { get; }
@@ -14,7 +14,7 @@ public interface IPagedList
     bool HasNextPage { get; }
 }
 
-public interface IPagedList<T> : IPagedList
+public interface IPagedResult<T> : IPagedResult
 {
     new ICollection<T> Items { get; }
 }

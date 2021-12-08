@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace beng.OrdersService.Api;
 
 [ApiController]
-[Route("api/v1/orders")]
+[Route("api/v2/orders")]
 public class OrdersController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -16,6 +16,6 @@ public class OrdersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetOrders([FromQuery] GetOrdersQuery request) =>
-        Ok(await _mediator.Send(request));
+    public async Task<IActionResult> GetOrders([FromQuery] GetOrdersQueryRequest request) => 
+        Ok(await _mediator.Send(request.ToQuery()));
 }

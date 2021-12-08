@@ -4,9 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public sealed class PagedList<T> : IPagedList<T>
+public sealed class PagedResult<T> : IPagedResult<T>
 {
-    public PagedList(
+    public PagedResult(
         ICollection<T> items,
         int pageIndex,
         int pageSize,
@@ -44,7 +44,7 @@ public sealed class PagedList<T> : IPagedList<T>
         get { return (TotalPages - 1) > PageIndex; }
     }
 
-    ICollection IPagedList.Items
+    ICollection IPagedResult.Items
     {
         get { return (ICollection) Items; }
     }
@@ -52,7 +52,7 @@ public sealed class PagedList<T> : IPagedList<T>
 
 public static class CollectionExtensions
 {
-    public static IPagedList<T> TakePage<T>(
+    public static IPagedResult<T> TakePage<T>(
         this IQueryable<T> items,
         int pageIndex,
         int pageSize)
@@ -63,10 +63,10 @@ public static class CollectionExtensions
             pageSize = 10;
 
         var collection = items.Skip((pageIndex) * pageSize).Take(pageSize).ToList();
-        return new PagedList<T>(collection, pageIndex, pageSize, items.Count());
+        return new PagedResult<T>(collection, pageIndex, pageSize, items.Count());
     }
 
-    public static IPagedList<T> TakePage<T>(
+    public static IPagedResult<T> TakePage<T>(
         this IQueryable<T> items,
         int pageIndex,
         int pageSize,
@@ -78,10 +78,10 @@ public static class CollectionExtensions
             pageSize = 10;
 
         var collection = items.Skip((pageIndex) * pageSize).Take(pageSize).ToList();
-        return new PagedList<T>(collection, pageIndex, pageSize, total);
+        return new PagedResult<T>(collection, pageIndex, pageSize, total);
     }
 
-    public static IPagedList<T> TakePage<T>(
+    public static IPagedResult<T> TakePage<T>(
         this IEnumerable<T> items,
         int pageIndex,
         int pageSize)
@@ -92,10 +92,10 @@ public static class CollectionExtensions
             pageSize = 10;
 
         var collection = items.Skip((pageIndex) * pageSize).Take(pageSize).ToList();
-        return new PagedList<T>(collection, pageIndex, pageSize, items.Count());
+        return new PagedResult<T>(collection, pageIndex, pageSize, items.Count());
     }
 
-    public static IPagedList<T> TakePage<T>(
+    public static IPagedResult<T> TakePage<T>(
         this IEnumerable<T> items,
         int pageIndex,
         int pageSize,
@@ -107,6 +107,6 @@ public static class CollectionExtensions
             pageSize = 10;
 
         var collection = items.Skip((pageIndex) * pageSize).Take(pageSize).ToList();
-        return new PagedList<T>(collection, pageIndex, pageSize, total);
+        return new PagedResult<T>(collection, pageIndex, pageSize, total);
     }
 }

@@ -11,7 +11,7 @@ public class OrderRepository : IOrderRepository
 
     public OrderRepository(AppDbContext db) => _db = db;
 
-    public IPagedList<Order> GetOrdersAsync(string userName, decimal? orderTotalFrom, string orderBy,
+    public IPagedResult<Order> GetOrdersAsync(string userName, decimal? orderTotalFrom, string orderBy,
         string orderDirection, int pageIndex = 0, int pageSize = 10)
     {
         

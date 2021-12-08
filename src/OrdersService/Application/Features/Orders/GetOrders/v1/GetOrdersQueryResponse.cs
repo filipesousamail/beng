@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using beng.OrdersService.Domain;
 using Microsoft.EntityFrameworkCore;
 
-namespace beng.OrdersService.Application.Features.Orders.GetOrders;
+namespace beng.OrdersService.Application.Features.Orders.GetOrders.v1;
 
 public class GetOrdersQueryResponse
 {
@@ -10,23 +10,27 @@ public class GetOrdersQueryResponse
     public Guid UserId { get; set; }
     public string? UserName { get; set; }
 
-    public static Expression<Func<Order, GetOrdersQueryResponse>> Projection() => order =>
+    public static Expression<Func<Order, GetOrdersQueryResponse>> Projection(List<User> userList) => order =>
         new GetOrdersQueryResponse
         {
             Total = order.Total,
             UserId = order.UserId,
-            UserName = order.User.Name
+            UserName = GetUserName(userList, order.UserId)
         };
+
+    private static string? GetUserName(IEnumerable<User> userList, Guid userId) =>
+        userList.FirstOrDefault(u => u.Id == userId)?.Name;
 }
 
 public static class GetOrdersQueryExtensions
 {
-    public static IQueryable<Order> ApplyGetOrdersQueryFilters(this DbSet<Order> source, GetOrdersQuery request)
+    public static IQueryable<Order> ApplyGetOrdersQueryFilters(this DbSet<Order> source, GetOrdersQuery request,
+        List<Guid> userIds)
     {
         var ordersQuery = source.AsQueryable();
 
-        if (!string.IsNullOrWhiteSpace(request.UserName))
-            ordersQuery = ordersQuery.Where(e => EF.Functions.Like(e.User.Name, $"{request.UserName}%"));
+        if (userIds.Any())
+            ordersQuery = ordersQuery.Where(e => userIds.Contains(e.UserId));
 
         if (request.OrderTotalFrom.HasValue)
             ordersQuery = ordersQuery.Where(e => e.Total >= request.OrderTotalFrom);
