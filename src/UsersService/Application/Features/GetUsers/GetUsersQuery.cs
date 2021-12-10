@@ -3,7 +3,7 @@ using MediatR;
 
 namespace beng.UsersService.Application.Features.GetUsers;
 
-public class GetUsersQuery : IRequest<IPagedList<GetUsersResponseModel>>
+public class GetUsersQuery : IRequest<PagedList<GetUsersResponseModel>>
 {
     public string UserName { get; set; }
     public string OrderBy { get; set; }

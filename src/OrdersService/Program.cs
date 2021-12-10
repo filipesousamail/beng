@@ -1,11 +1,8 @@
 using System.Reflection;
-using System.Text.Json;
 using beng.OrdersService.Application.Common;
-using beng.OrdersService.Application.Features.Orders.GetOrders;
-using beng.OrdersService.Application.Features.Users;
+using beng.OrdersService.Application.Features.Users.CreateUser;
 using beng.OrdersService.Infrastructure;
 using beng.OrdersService.Infrastructure.Gateways;
-using beng.OrdersService.Infrastructure.Repositories;
 using Dapr.Client;
 using FluentValidation.AspNetCore;
 using MediatR;
@@ -28,16 +25,6 @@ builder.Services.AddSwaggerGen();
 //database
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("postgres")));
-
-//Apply migrations
-var serviceProvider = builder.Services.BuildServiceProvider();
-using var scope = serviceProvider.CreateScope();
-var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-db.Database.Migrate();
-
-// repos 
-builder.Services.AddTransient<IOrderRepository, OrderRepository>();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
 
 // gateways
 builder.Services.AddSingleton<IUserServiceGateway, UserServiceGateway>(

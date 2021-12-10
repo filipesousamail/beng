@@ -18,7 +18,7 @@ public class UserServiceGateway : IUserServiceGateway
         var validOrderSubjects = new HashSet<string>(StringComparer.OrdinalIgnoreCase) {"Id", "Name"};
         var curatedOrderBy = validOrderSubjects.Contains(orderBy) ? orderBy : nameof(User.Id);
 
-        var users = await _userServiceHttpClient.GetFromJsonAsync<PagedResult<User>>(
+        var users = await _userServiceHttpClient.GetFromJsonAsync<PagedList<User>>(
             $"api/v1/users?userName={userName}&orderBy={curatedOrderBy}&orderDirection={orderDirection}&pageIndex={pageIndex}&pageSize={pageSize}",
             cancellationToken);
 

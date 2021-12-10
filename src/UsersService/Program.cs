@@ -1,7 +1,6 @@
 using System.Reflection;
 using beng.UsersService.Application.Common;
 using beng.UsersService.Infrastructure;
-using beng.UsersService.Infrastructure.Repositories;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,18 +18,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("postgres")));
 
-//Apply migrations
-var serviceProvider = builder.Services.BuildServiceProvider();
-using var scope = serviceProvider.CreateScope();
-var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-db.Database.Migrate();
-
-// repos 
-builder.Services.AddTransient<IUserRepository, UserRepository>();
-
 // application
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 // mediator behaviours
+builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(RequestValidationBehaviour<,>));    
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
 
 var app = builder.Build();
@@ -44,8 +35,6 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.UseEndpoints(endpoints => { endpoints.MapSubscribeHandler(); });
-
-// app.UseHttpsRedirection();
 
 app.MapControllers();
 

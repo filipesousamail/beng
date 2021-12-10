@@ -10,13 +10,13 @@ public record GetOrdersQueryRequest
     public int PageSize { get; set; } = 10;
 
     internal GetOrdersQuery ToQuery() =>
-    new()
-    {
-        OrderBy = OrderBy,
-        OrderDirection = OrderDirection,
-        OrderTotalFrom = OrderTotalFrom,
-        PageIndex = PageIndex,
-        PageSize = PageSize,
-        UserName = UserName
-    };
+        new()
+        {
+            OrderBy = OrderBy,
+            OrderDirection = OrderDirection,
+            OrderTotalFrom = OrderTotalFrom,
+            PageIndex = PageIndex,
+            PageSize = PageSize,
+            UserName = UserName
+        };
 }

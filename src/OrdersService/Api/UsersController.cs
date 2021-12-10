@@ -1,4 +1,4 @@
-using beng.OrdersService.Application.Features.Users;
+using beng.OrdersService.Application.Features.Users.CreateUser;
 using Contracts;
 using Dapr;
 using MediatR;

@@ -5,7 +5,7 @@ using MediatR;
 
 namespace beng.UsersService.Application.Features.GetUsers;
 
-public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, IPagedList<GetUsersResponseModel>>
+public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, PagedList<GetUsersResponseModel>>
 {
     private readonly AppDbContext _db;
 
@@ -14,7 +14,7 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, IPagedList<Ge
         _db = db;
     }
 
-    public Task<IPagedList<GetUsersResponseModel>> Handle(GetUsersQuery request,
+    public Task<PagedList<GetUsersResponseModel>> Handle(GetUsersQuery request,
         CancellationToken cancellationToken)
     {
         var users = _db.Users

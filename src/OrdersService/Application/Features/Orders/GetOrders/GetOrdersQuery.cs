@@ -3,7 +3,7 @@ using MediatR;
 
 namespace beng.OrdersService.Application.Features.Orders.GetOrders;
 
-public record GetOrdersQuery : IRequest<IPagedResult<GetOrdersQueryResponse>>
+public record GetOrdersQuery : IRequest<PagedList<GetOrdersQueryResponse>>
 {
     public string? UserName { get; set; }
     public decimal? OrderTotalFrom { get; set; }

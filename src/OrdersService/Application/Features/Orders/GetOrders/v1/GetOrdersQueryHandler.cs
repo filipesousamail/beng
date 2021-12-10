@@ -6,25 +6,22 @@ using System.Linq.Dynamic.Core;
 namespace beng.OrdersService.Application.Features.Orders.GetOrders.v1;
 
 public class GetOrdersQueryHandler :
-    IRequestHandler<GetOrdersQuery, IPagedResult<GetOrdersQueryResponse>>
+    IRequestHandler<GetOrdersQuery, Common.PagedList<GetOrdersQueryResponse>>
 {
     private readonly AppDbContext _db;
-    private readonly IOrderRepository _repo;
     private readonly IUserServiceGateway _userServiceGateway;
     private readonly Dictionary<string, string> _validOrderSubjects =
         new(StringComparer.OrdinalIgnoreCase) { { "Id", "Id" }, { "Total", "Total" }, { "UserName", "Name" } };
 
     public GetOrdersQueryHandler(
         AppDbContext db,
-        IOrderRepository repo,
         IUserServiceGateway userServiceGateway)
     {
         _db = db;
-        _repo = repo;
         _userServiceGateway = userServiceGateway;
     }
 
-    public async Task<IPagedResult<GetOrdersQueryResponse>> Handle(GetOrdersQuery request,
+    public async Task<Common.PagedList<GetOrdersQueryResponse>> Handle(GetOrdersQuery request,
         CancellationToken cancellationToken)
     {
         _validOrderSubjects.TryGetValue(request.OrderBy ?? string.Empty, out var curatedOrderBy);
