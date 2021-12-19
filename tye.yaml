@@ -7,22 +7,28 @@ extensions:
     components-path: "./components/local/"
 
 services:
-  - name: userservice
-    project: src/UsersService/UsersService.csproj
+  - name: users-service
+    project: src/UsersService/src/UsersService.csproj
     bindings:
-    - port: 5080
+      - port: 5080
 
 
-  - name: orderservice
+  - name: orders-service
     project: src/OrdersService/OrdersService.csproj
     bindings:
-    - port: 5081
+      - port: 5081
 
-# services:
-# - name: users-service
-#   executable: dapr
-#   args: run --app-id users-service --app-port 5080 --components-path components/local -- dotnet run --project src/UsersService/UsersService.csproj --urls "http://localhost:5080"
+  - name: inventory-service
+    project: src/InventoryService/src/InventoryService.csproj
+    bindings:
+      - port: 5082
   
+  
+  # services:
+  # - name: users-service
+  #   executable: dapr
+  #   args: run --app-id users-service --app-port 5080 --components-path components/local -- dotnet run --project src/UsersService/UsersService.csproj --urls "http://localhost:5080"
+
 # - name: orders-service
 #   executable: dapr
 #   args: run --app-id orders-service --app-port 5081 --components-path components/local -- dotnet run --project src/OrdersService/OrdersService.csproj --urls "http://localhost:5081"

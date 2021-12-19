@@ -48,7 +48,7 @@ app.MapControllers();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(op=>op.RoutePrefix = string.Empty);
+    app.UseSwaggerUI();
 }
 
 app.Run();
