@@ -27,7 +27,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Contracts\Contracts.csproj" />
+      <ProjectReference Include="..\..\Contracts\Contracts.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="src" />
+      <Folder Include="tests" />
     </ItemGroup>
 
 </Project>

@@ -4,10 +4,10 @@ using Dapr;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace beng.OrdersService.Api.IntegrationEventConsumers;
+namespace beng.OrdersService.Api;
 
 [ApiController]
-[Route("integrations/v1/users")]
+[Route("api/v1/users")]
 public class UsersController : ControllerBase
 {
     private readonly IMediator _mediator;
