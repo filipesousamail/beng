@@ -1,6 +1,9 @@
 using System.Reflection;
 using beng.InventoryService.Domain;
+using beng.InventoryService.Domain.Inventory;
+using beng.InventoryService.Domain.Products;
 using beng.InventoryService.Infrastructure.Configurations;
+using beng.InventoryService.Infrastructure.Configurations.Products;
 using Microsoft.EntityFrameworkCore;
 
 namespace beng.InventoryService.Infrastructure;

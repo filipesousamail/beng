@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using beng.InventoryService.Domain;
+using beng.InventoryService.Domain.Products;
 
 namespace beng.InventoryService.Application.Features.GetAllProductsQuery;
 

@@ -1,4 +1,4 @@
-namespace beng.UsersService.Domain;
+namespace beng.OrdersService.Domain.Users;
 
 public class User : AggregateRoot<Guid>
 {

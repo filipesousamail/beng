@@ -1,4 +1,4 @@
-namespace beng.InventoryService.Domain;
+namespace beng.OrdersService.Domain;
 
 public abstract class AggregateRoot<T> : Entity<T>, IAuditableEntity
 {

@@ -14,7 +14,7 @@ services:
 
 
   - name: orders-service
-    project: src/OrdersService/OrdersService.csproj
+    project: src/OrdersService/src/OrdersService.csproj
     bindings:
       - port: 5081
 
